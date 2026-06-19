@@ -495,7 +495,7 @@ h2 {
 .what-block h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 2.5px; color: var(--accent); margin-bottom: 16px; }
 .what-block ul { list-style: none; }
 .what-block li {
-  padding: 8px 0 8px 24px;
+  padding: 8px 0;
   position: relative;
   color: var(--text2);
   font-size: 15px;
