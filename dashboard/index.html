@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sreda + Seamless Control Center</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,sans-serif;background:#0a0a0f;color:#e0e0e0;min-height:100vh}
+.login{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;gap:20px}
+.login h1{font-size:28px;font-weight:300;letter-spacing:2px;color:#b8a08a}
+.login input{padding:14px 24px;border:1px solid #333;border-radius:8px;background:#1a1a24;color:#fff;font-size:16px;width:280px;text-align:center;outline:none}
+.login input:focus{border-color:#b8a08a}
+.login button{padding:12px 40px;border:none;border-radius:8px;background:#b8a08a;color:#0a0a0f;font-size:16px;cursor:pointer;font-weight:600}
+.login button:hover{background:#d4b896}
+.login .error{color:#e55;font-size:14px}
+.dashboard{display:none;padding:32px;max-width:1200px;margin:0 auto}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;flex-wrap:wrap;gap:16px}
+header h1{font-size:24px;font-weight:300;letter-spacing:2px;color:#b8a08a}
+header .meta{font-size:12px;color:#666}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:32px}
+.card{background:#14141f;border:1px solid #222;border-radius:12px;padding:20px}
+.card .label{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.card .value{font-size:32px;font-weight:600;color:#fff}
+.card .sub{font-size:13px;color:#666;margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px}
+@media(max-width:768px){.grid2{grid-template-columns:1fr}}
+.section{background:#14141f;border:1px solid #222;border-radius:12px;padding:24px}
+.section h2{font-size:14px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;font-weight:500}
+.bar-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.bar-row .name{width:60px;font-size:13px;color:#ccc;text-align:right;flex-shrink:0}
+.bar-row .bar-wrap{flex:1;height:6px;background:#222;border-radius:3px;overflow:hidden}
+.bar-row .bar{height:100%;background:#b8a08a;border-radius:3px;transition:width .3s}
+.bar-row .count{font-size:13px;color:#888;width:36px;flex-shrink:0}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:10px 12px;color:#888;font-weight:500;border-bottom:1px solid #222;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+td{padding:10px 12px;border-bottom:1px solid #1a1a24;color:#ccc}
+tr:hover td{background:#1a1a24}
+td.answer{max-width:300px;font-size:12px;color:#999}
+.q-block{margin-top:8px;padding:6px 0;border-top:1px solid #1a1a24}
+.q-block .qn{color:#b8a08a;font-size:11px;margin-bottom:2px}
+.q-block .qa{color:#aaa;font-size:12px}
+.empty{text-align:center;color:#555;padding:40px;font-size:14px}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:500}
+.badge-step1{background:#1a3a2a;color:#4a9}
+.badge-step3{background:#2a2a1a;color:#ca0}
+.badge-step5{background:#1a2a3a;color:#69c}
+.refresh{font-size:11px;color:#555;text-align:right;margin-top:8px}
+</style>
+</head>
+<body>
+
+<div class="login" id="login">
+  <h1>SREDA + SEAMLESS<br>Control Center</h1>
+  <input type="password" id="pass" placeholder="Enter password" onkeydown="if(event.key==='Enter')unlock()">
+  <button onclick="unlock()">Enter</button>
+  <div class="error" id="loginErr"></div>
+</div>
+
+<div class="dashboard" id="dash">
+  <header>
+    <div>
+      <h1>Sreda + Seamless Control Center</h1>
+      <div class="meta">webinar registrations & survey data</div>
+    </div>
+    <div class="meta" id="lastRefresh"></div>
+  </header>
+
+  <div class="stats" id="statCards"></div>
+
+  <div class="grid2">
+    <div class="section">
+      <h2>By Country</h2>
+      <div id="byCountry"></div>
+    </div>
+    <div class="section">
+      <h2>By Language</h2>
+      <div id="byLang"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>All Responses</h2>
+    <table id="table">
+      <thead><tr><th>Name</th><th>Country</th><th>Lang</th><th>Step</th><th>Date</th><th>Answers</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <div class="empty" id="empty">No data yet</div>
+  </div>
+  <div class="refresh">Auto-refresh every 60s</div>
+</div>
+
+<script>
+const SUPABASE_URL='https://hkjsgyaroavbhphuehxq.supabase.co';
+const SUPABASE_KEY='sb_publishable_vvtcTGwQOmBzgxGDrnbrZg_EAJEvMGm';
+const PASSWORD='sreda2026';
+let sb;
+
+function unlock(){
+  if(document.getElementById('pass').value===PASSWORD){
+    document.getElementById('login').style.display='none';
+    document.getElementById('dash').style.display='block';
+    sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+    loadData();
+    setInterval(loadData,60000);
+  }else{
+    document.getElementById('loginErr').textContent='Wrong password';
+  }
+}
+
+async function loadData(){
+  const {data,error}=await sb.from('webinar_signups').select('*').order('created_at',{ascending:false});
+  if(error){console.error(error);return}
+  if(!data||!data.length){
+    document.getElementById('empty').style.display='block';
+    return;
+  }
+  document.getElementById('empty').style.display='none';
+  
+  // Stats
+  const total=data.length;
+  const real=data.filter(r=>!r.name||!r.name.toLowerCase().includes('roman'));
+  const step1=data.filter(r=>r.step===1||!r.step).length;
+  const step3=data.filter(r=>r.step===3).length;
+  const step5=data.filter(r=>r.step===5).length;
+  document.getElementById('statCards').innerHTML=
+    `<div class="card"><div class="label">Total Signups</div><div class="value">${total}</div></div>`+
+    `<div class="card"><div class="label">Real (excl. tests)</div><div class="value">${real.length}</div></div>`+
+    `<div class="card"><div class="label">Step 1 (registered)</div><div class="value">${step1}</div></div>`+
+    `<div class="card"><div class="label">Step 3 (Q1–4)</div><div class="value">${step3}</div></div>`+
+    `<div class="card"><div class="label">Step 5 (complete)</div><div class="value">${step5}</div></div>`;
+  
+  // Countries
+  const cc={};data.forEach(r=>{const c=r.country||'?';cc[c]=(cc[c]||0)+1});
+  const csorted=Object.entries(cc).sort((a,b)=>b[1]-a[1]);
+  const cmax=csorted[0]?.[1]||1;
+  document.getElementById('byCountry').innerHTML=csorted.map(([k,v])=>
+    `<div class="bar-row"><span class="name">${k}</span><div class="bar-wrap"><div class="bar" style="width:${(v/cmax*100)}%"></div></div><span class="count">${v}</span></div>`
+  ).join('')||'<div class="empty">No data</div>';
+  
+  // Languages
+  const lc={};data.forEach(r=>{const l=r.lang||'?';lc[l]=(lc[l]||0)+1});
+  const lsorted=Object.entries(lc).sort((a,b)=>b[1]-a[1]);
+  const lmax=lsorted[0]?.[1]||1;
+  document.getElementById('byLang').innerHTML=lsorted.map(([k,v])=>
+    `<div class="bar-row"><span class="name">${k}</span><div class="bar-wrap"><div class="bar" style="width:${(v/lmax*100)}%"></div></div><span class="count">${v}</span></div>`
+  ).join('')||'<div class="empty">No data</div>';
+  
+  // Table
+  document.getElementById('table').querySelector('tbody').innerHTML=data.map(r=>{
+    let badge='';
+    if(r.step>=5)badge='<span class="badge badge-step5">Done</span>';
+    else if(r.step>=3)badge='<span class="badge badge-step3">Q1-4</span>';
+    else badge='<span class="badge badge-step1">Registered</span>';
+    
+    let answers='';
+    if(r.q1||r.q2||r.q3||r.q4){
+      answers+='<div class="q-block"><div class="qn">Q1: What's your experience?</div><div class="qa">'+(r.q1||'-')+'</div></div>';
+      answers+='<div class="q-block"><div class="qn">Q2: What draws you?</div><div class="qa">'+(r.q2||'-')+'</div></div>';
+      answers+='<div class="q-block"><div class="qn">Q3: Your goals?</div><div class="qa">'+(r.q3||'-')+'</div></div>';
+      answers+='<div class="q-block"><div class="qn">Q4: What's hard?</div><div class="qa">'+(r.q4||'-')+'</div></div>';
+    }
+    if(r.q5||r.q6||r.q7){
+      answers+='<div class="q-block"><div class="qn">Q5: Your frequency?</div><div class="qa">'+(r.q5||'-')+'</div></div>';
+      answers+='<div class="q-block"><div class="qn">Q6: Time zone?</div><div class="qa">'+(r.q6||'-')+'</div></div>';
+      answers+='<div class="q-block"><div class="qn">Q7: Anything else?</div><div class="qa">'+(r.q7||'-')+'</div></div>';
+    }
+    if(!answers)answers='<span style="color:#555">—</span>';
+    
+    const isTest=r.name&&r.name.toLowerCase().includes('roman');
+    return `<tr${isTest?' style="opacity:.4"':''}>
+      <td>${r.name||'—'}${isTest?' 🧪':''}</td>
+      <td>${r.country||'—'}</td>
+      <td>${r.lang||'—'}</td>
+      <td>${badge}</td>
+      <td>${new Date(r.created_at).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</td>
+      <td class="answer">${answers}</td></tr>`;
+  }).join('');
+  
+  document.getElementById('lastRefresh').textContent='Updated: '+new Date().toLocaleTimeString();
+}
+</script>
+</body>
+</html>
