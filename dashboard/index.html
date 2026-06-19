@@ -98,20 +98,28 @@ const PASSWORD='sreda2026';
 let sb;
 
 function unlock(){
-  if(document.getElementById('pass').value===PASSWORD){
-    document.getElementById('login').style.display='none';
-    document.getElementById('dash').style.display='block';
-    sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-    loadData();
-    setInterval(loadData,60000);
-  }else{
+  if(document.getElementById('pass').value.trim()!==PASSWORD){
     document.getElementById('loginErr').textContent='Wrong password';
+    return;
   }
+  document.getElementById('login').style.display='none';
+  document.getElementById('dash').style.display='block';
+  try{
+    if(typeof supabase==='undefined')throw new Error('Supabase lib not loaded');
+    sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+  }catch(e){
+    document.getElementById('empty').textContent='Error: '+e.message;
+    document.getElementById('empty').style.display='block';
+    return;
+  }
+  loadData();
+  setInterval(loadData,60000);
 }
 
 async function loadData(){
-  const {data,error}=await sb.from('webinar_signups').select('*').order('created_at',{ascending:false});
-  if(error){console.error(error);return}
+  try{var {data,error}=await sb.from('webinar_signups').select('*').order('created_at',{ascending:false})}
+  catch(e){console.error(e);return}
+  if(error){console.error(error);document.getElementById('empty').textContent='DB error: '+error.message;document.getElementById('empty').style.display='block';return}
   if(!data||!data.length){
     document.getElementById('empty').style.display='block';
     return;
