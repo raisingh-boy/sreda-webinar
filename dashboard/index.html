@@ -2,51 +2,53 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Sreda + Seamless Control Center</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Inter',-apple-system,sans-serif;background:#0a0a0f;color:#e0e0e0;min-height:100vh}
 .login{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;gap:20px}
-.login h1{font-size:28px;font-weight:300;letter-spacing:2px;color:#b8a08a}
+.login h1{font-size:28px;font-weight:300;letter-spacing:2px;color:#b8a08a;text-align:center}
 .login input{padding:14px 24px;border:1px solid #333;border-radius:8px;background:#1a1a24;color:#fff;font-size:16px;width:280px;text-align:center;outline:none}
 .login input:focus{border-color:#b8a08a}
 .login button{padding:12px 40px;border:none;border-radius:8px;background:#b8a08a;color:#0a0a0f;font-size:16px;cursor:pointer;font-weight:600}
 .login button:hover{background:#d4b896}
 .login .error{color:#e55;font-size:14px}
-.dashboard{display:none;padding:32px;max-width:1200px;margin:0 auto}
-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;flex-wrap:wrap;gap:16px}
-header h1{font-size:24px;font-weight:300;letter-spacing:2px;color:#b8a08a}
-header .meta{font-size:12px;color:#666}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:32px}
-.card{background:#14141f;border:1px solid #222;border-radius:12px;padding:20px}
-.card .label{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-.card .value{font-size:32px;font-weight:600;color:#fff}
-.card .sub{font-size:13px;color:#666;margin-top:4px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px}
+.dashboard{display:none;padding:24px;max-width:1300px;margin:0 auto}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;flex-wrap:wrap;gap:12px}
+header h1{font-size:22px;font-weight:300;letter-spacing:1.5px;color:#b8a08a}
+header .meta{font-size:11px;color:#555}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:28px}
+.card{background:#14141f;border:1px solid #222;border-radius:10px;padding:18px}
+.card .label{font-size:10px;color:#777;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.card .value{font-size:28px;font-weight:600;color:#fff}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px}
 @media(max-width:768px){.grid2{grid-template-columns:1fr}}
-.section{background:#14141f;border:1px solid #222;border-radius:12px;padding:24px}
-.section h2{font-size:14px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;font-weight:500}
-.bar-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
-.bar-row .name{width:60px;font-size:13px;color:#ccc;text-align:right;flex-shrink:0}
+.section{background:#14141f;border:1px solid #222;border-radius:10px;padding:20px}
+.section h2{font-size:13px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;font-weight:500}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.bar-row .name{min-width:50px;font-size:13px;color:#ccc;text-align:right}
 .bar-row .bar-wrap{flex:1;height:6px;background:#222;border-radius:3px;overflow:hidden}
 .bar-row .bar{height:100%;background:#b8a08a;border-radius:3px;transition:width .3s}
-.bar-row .count{font-size:13px;color:#888;width:36px;flex-shrink:0}
+.bar-row .count{font-size:12px;color:#888;min-width:30px;text-align:right}
 table{width:100%;border-collapse:collapse;font-size:13px}
-th{text-align:left;padding:10px 12px;color:#888;font-weight:500;border-bottom:1px solid #222;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
-td{padding:10px 12px;border-bottom:1px solid #1a1a24;color:#ccc}
+th{text-align:left;padding:8px 10px;color:#888;font-weight:500;border-bottom:1px solid #222;font-size:10px;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+td{padding:10px;border-bottom:1px solid #1a1a24;color:#ccc;vertical-align:top}
 tr:hover td{background:#1a1a24}
-td.answer{max-width:300px;font-size:12px;color:#999}
-.q-block{margin-top:8px;padding:6px 0;border-top:1px solid #1a1a24}
-.q-block .qn{color:#b8a08a;font-size:11px;margin-bottom:2px}
-.q-block .qa{color:#aaa;font-size:12px}
+td.email{font-size:11px;color:#888;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+td.qcol{max-width:360px;font-size:11px;line-height:1.5}
+.q-item{margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid #1f1f2a}
+.q-item:last-child{border-bottom:none;margin-bottom:0}
+.q-item .q-label{color:#b8a08a;font-size:10px;font-weight:500;margin-bottom:2px}
+.q-item .q-answer{color:#ccc;font-size:12px}
+.no-answers{color:#444;font-style:italic}
 .empty{text-align:center;color:#555;padding:40px;font-size:14px}
-.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:500}
-.badge-step1{background:#1a3a2a;color:#4a9}
-.badge-step3{background:#2a2a1a;color:#ca0}
-.badge-step5{background:#1a2a3a;color:#69c}
-.refresh{font-size:11px;color:#555;text-align:right;margin-top:8px}
+.badge{display:inline-block;padding:2px 7px;border-radius:8px;font-size:10px;font-weight:500;white-space:nowrap}
+.badge-registered{background:#1a2a2a;color:#4a9}
+.badge-survey{background:#2a2a1a;color:#ca0}
+.refresh{font-size:10px;color:#444;text-align:right;margin-top:12px}
+.test-row{opacity:.35}
 </style>
 </head>
 <body>
@@ -62,7 +64,7 @@ td.answer{max-width:300px;font-size:12px;color:#999}
   <header>
     <div>
       <h1>Sreda + Seamless Control Center</h1>
-      <div class="meta">webinar registrations & survey data</div>
+      <div class="meta">webinar registrations & survey responses</div>
     </div>
     <div class="meta" id="lastRefresh"></div>
   </header>
@@ -70,22 +72,18 @@ td.answer{max-width:300px;font-size:12px;color:#999}
   <div class="stats" id="statCards"></div>
 
   <div class="grid2">
-    <div class="section">
-      <h2>By Country</h2>
-      <div id="byCountry"></div>
-    </div>
-    <div class="section">
-      <h2>By Language</h2>
-      <div id="byLang"></div>
-    </div>
+    <div class="section"><h2>By Country</h2><div id="byCountry"></div></div>
+    <div class="section"><h2>By Language</h2><div id="byLang"></div></div>
   </div>
 
   <div class="section">
-    <h2>All Responses</h2>
+    <h2>All Registrations</h2>
+    <div style="overflow-x:auto">
     <table id="table">
-      <thead><tr><th>Name</th><th>Country</th><th>Lang</th><th>Step</th><th>Date</th><th>Answers</th></tr></thead>
+      <thead><tr><th>Name</th><th>Email</th><th>Country</th><th>Lang</th><th>Progress</th><th>Date</th><th>Survey Answers</th></tr></thead>
       <tbody></tbody>
     </table>
+    </div>
     <div class="empty" id="empty">No data yet</div>
   </div>
   <div class="refresh">Auto-refresh every 60s</div>
@@ -96,6 +94,24 @@ const SUPABASE_URL='https://hkjsgyaroavbhphuehxq.supabase.co';
 const SUPABASE_KEY='sb_publishable_vvtcTGwQOmBzgxGDrnbrZg_EAJEvMGm';
 const PASSWORD='sreda2026';
 let sb;
+
+// Answer code → full text translation
+const A={
+  q1:{like:'I see myself — and I like it',off:'Something is off: I look different from how I feel inside',tense:'I tense up, freeze, start performing for the camera',not:'I have not watched myself in a while'},
+  q2:{space:'I want to understand how to work with body and space',digital:'The connection between movement, presence and digital presence',express:'I want to express through my body — make something of my own',start:'Curious about contemporary dance but do not know where to start'},
+  q3:{regular:'Yes, I invest regularly — it is normal for me',once:'Yes, once or twice — when the topic resonated',thinking:'Not yet, but I am thinking about it',free:'No, I prefer free formats'},
+  q4:{body:'I work with the body: dance, movement, theater, yoga, sports',visual:'Visual content: photo, video, design, social media',help:'Helping professions: coach, therapist, educator',own:'I run something of my own — online or offline'},
+  q5:{bodywork:'Working with body, movement, presence',creative:'Creative practice / making content',regular:'Regular practice, discipline',healing:'Healing / therapeutic work'},
+  q6:{morning:'Morning (6–12)',afternoon:'Afternoon (12–18)',evening:'Evening (18–22)',night:'Late night (22+)'},
+  q7:{}
+};
+
+function t(q,code){
+  if(!code)return null;
+  const map=A['q'+q];
+  if(!map)return code;
+  return map[code]||code;
+}
 
 function unlock(){
   if(document.getElementById('pass').value.trim()!==PASSWORD){
@@ -119,73 +135,70 @@ function unlock(){
 async function loadData(){
   try{var {data,error}=await sb.from('webinar_signups').select('*').order('created_at',{ascending:false})}
   catch(e){console.error(e);return}
-  if(error){console.error(error);document.getElementById('empty').textContent='DB error: '+error.message;document.getElementById('empty').style.display='block';return}
-  if(!data||!data.length){
-    document.getElementById('empty').style.display='block';
-    return;
-  }
+  if(error){document.getElementById('empty').textContent='DB error: '+error.message;document.getElementById('empty').style.display='block';return}
+  if(!data||!data.length){document.getElementById('empty').style.display='block';return}
   document.getElementById('empty').style.display='none';
-  
-  // Stats
+
   const total=data.length;
-  const real=data.filter(r=>!r.name||!r.name.toLowerCase().includes('roman'));
-  const step1=data.filter(r=>r.step===1||!r.step).length;
-  const step3=data.filter(r=>r.step===3).length;
-  const step5=data.filter(r=>r.step===5).length;
+  const isReal=r=>!r.name||!r.name.toLowerCase().includes('roman');
+  const real=data.filter(isReal);
+  const hasSurvey=data.filter(r=>r.q1||r.q2||r.q3||r.q4||r.q5||r.q6||r.q7);
+  const registered=data.filter(r=>!(r.q1||r.q2||r.q3||r.q4||r.q5||r.q6||r.q7));
+
   document.getElementById('statCards').innerHTML=
-    `<div class="card"><div class="label">Total Signups</div><div class="value">${total}</div></div>`+
-    `<div class="card"><div class="label">Real (excl. tests)</div><div class="value">${real.length}</div></div>`+
-    `<div class="card"><div class="label">Step 1 (registered)</div><div class="value">${step1}</div></div>`+
-    `<div class="card"><div class="label">Step 3 (Q1–4)</div><div class="value">${step3}</div></div>`+
-    `<div class="card"><div class="label">Step 5 (complete)</div><div class="value">${step5}</div></div>`;
-  
+    '<div class="card"><div class="label">Total</div><div class="value">'+total+'</div></div>'+
+    '<div class="card"><div class="label">Real people</div><div class="value">'+real.length+'</div></div>'+
+    '<div class="card"><div class="label">Registered only</div><div class="value">'+registered.length+'</div></div>'+
+    '<div class="card"><div class="label">Filled survey</div><div class="value">'+hasSurvey.length+'</div></div>';
+
   // Countries
-  const cc={};data.forEach(r=>{const c=r.country||'?';cc[c]=(cc[c]||0)+1});
-  const csorted=Object.entries(cc).sort((a,b)=>b[1]-a[1]);
-  const cmax=csorted[0]?.[1]||1;
-  document.getElementById('byCountry').innerHTML=csorted.map(([k,v])=>
-    `<div class="bar-row"><span class="name">${k}</span><div class="bar-wrap"><div class="bar" style="width:${(v/cmax*100)}%"></div></div><span class="count">${v}</span></div>`
-  ).join('')||'<div class="empty">No data</div>';
-  
+  var cc={};data.forEach(function(r){var c=r.country||'?';cc[c]=(cc[c]||0)+1});
+  var cs=Object.entries(cc).sort(function(a,b){return b[1]-a[1]});
+  var cmax=cs[0]?.[1]||1;
+  document.getElementById('byCountry').innerHTML=cs.map(function(e){return'<div class="bar-row"><span class="name">'+e[0]+'</span><div class="bar-wrap"><div class="bar" style="width:'+(e[1]/cmax*100)+'%"></div></div><span class="count">'+e[1]+'</span></div>'}).join('');
+
   // Languages
-  const lc={};data.forEach(r=>{const l=r.lang||'?';lc[l]=(lc[l]||0)+1});
-  const lsorted=Object.entries(lc).sort((a,b)=>b[1]-a[1]);
-  const lmax=lsorted[0]?.[1]||1;
-  document.getElementById('byLang').innerHTML=lsorted.map(([k,v])=>
-    `<div class="bar-row"><span class="name">${k}</span><div class="bar-wrap"><div class="bar" style="width:${(v/lmax*100)}%"></div></div><span class="count">${v}</span></div>`
-  ).join('')||'<div class="empty">No data</div>';
-  
+  var lc={};data.forEach(function(r){var l=r.lang||'?';lc[l]=(lc[l]||0)+1});
+  var ls=Object.entries(lc).sort(function(a,b){return b[1]-a[1]});
+  var lmax=ls[0]?.[1]||1;
+  document.getElementById('byLang').innerHTML=ls.map(function(e){return'<div class="bar-row"><span class="name">'+e[0]+'</span><div class="bar-wrap"><div class="bar" style="width:'+(e[1]/lmax*100)+'%"></div></div><span class="count">'+e[1]+'</span></div>'}).join('');
+
   // Table
-  document.getElementById('table').querySelector('tbody').innerHTML=data.map(r=>{
-    let badge='';
-    if(r.step>=5)badge='<span class="badge badge-step5">Done</span>';
-    else if(r.step>=3)badge='<span class="badge badge-step3">Q1-4</span>';
-    else badge='<span class="badge badge-step1">Registered</span>';
-    
-    let answers='';
+  var rows='';
+  for(var i=0;i<data.length;i++){
+    var r=data[i];
+    var isTest=r.name&&r.name.toLowerCase().indexOf('roman')>=0;
+    var hasQ=!!(r.q1||r.q2||r.q3||r.q4||r.q5||r.q6||r.q7);
+    var badge=hasQ?'<span class="badge badge-survey">Survey</span>':'<span class="badge badge-registered">Registered</span>';
+
+    var answers='';
     if(r.q1||r.q2||r.q3||r.q4){
-      answers+='<div class="q-block"><div class="qn">Q1: What is your experience?</div><div class="qa">'+(r.q1||'-')+'</div></div>';
-      answers+='<div class="q-block"><div class="qn">Q2: What draws you?</div><div class="qa">'+(r.q2||'-')+'</div></div>';
-      answers+='<div class="q-block"><div class="qn">Q3: Your goals?</div><div class="qa">'+(r.q3||'-')+'</div></div>';
-      answers+='<div class="q-block"><div class="qn">Q4: What is hard?</div><div class="qa">'+(r.q4||'-')+'</div></div>';
+      if(r.q1)answers+='<div class="q-item"><div class="q-label">How you feel on camera</div><div class="q-answer">'+t(1,r.q1)+'</div></div>';
+      if(r.q2)answers+='<div class="q-item"><div class="q-label">What draws you</div><div class="q-answer">'+t(2,r.q2)+'</div></div>';
+      if(r.q3)answers+='<div class="q-item"><div class="q-label">Paid courses experience</div><div class="q-answer">'+t(3,r.q3)+'</div></div>';
+      if(r.q4)answers+='<div class="q-item"><div class="q-label">Your field</div><div class="q-answer">'+t(4,r.q4)+'</div></div>';
     }
     if(r.q5||r.q6||r.q7){
-      answers+='<div class="q-block"><div class="qn">Q5: Your frequency?</div><div class="qa">'+(r.q5||'-')+'</div></div>';
-      answers+='<div class="q-block"><div class="qn">Q6: Time zone?</div><div class="qa">'+(r.q6||'-')+'</div></div>';
-      answers+='<div class="q-block"><div class="qn">Q7: Anything else?</div><div class="qa">'+(r.q7||'-')+'</div></div>';
+      if(r.q5)answers+='<div class="q-item"><div class="q-label">Practice focus</div><div class="q-answer">'+t(5,r.q5)+'</div></div>';
+      if(r.q6)answers+='<div class="q-item"><div class="q-label">Time preference</div><div class="q-answer">'+t(6,r.q6)+'</div></div>';
+      if(r.q7)answers+='<div class="q-item"><div class="q-label">Additional notes</div><div class="q-answer">'+r.q7+'</div></div>';
     }
-    if(!answers)answers='<span style="color:#555">—</span>';
-    
-    const isTest=r.name&&r.name.toLowerCase().includes('roman');
-    return `<tr${isTest?' style="opacity:.4"':''}>
-      <td>${r.name||'—'}${isTest?' 🧪':''}</td>
-      <td>${r.country||'—'}</td>
-      <td>${r.lang||'—'}</td>
-      <td>${badge}</td>
-      <td>${new Date(r.created_at).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</td>
-      <td class="answer">${answers}</td></tr>`;
-  }).join('');
-  
+    if(!answers)answers='<span class="no-answers">Registered, no survey yet</span>';
+
+    var d=new Date(r.created_at);
+    var ds=d.getDate().toString().padStart(2,'0')+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()]+' '+d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');
+
+    rows+='<tr'+(isTest?' class="test-row"':'')+'>'+
+      '<td>'+(r.name||'—')+(isTest?' 🧪':'')+'</td>'+
+      '<td class="email">'+(r.email||'—')+'</td>'+
+      '<td>'+(r.country||'—')+'</td>'+
+      '<td>'+(r.lang||'—')+'</td>'+
+      '<td>'+badge+'</td>'+
+      '<td>'+ds+'</td>'+
+      '<td class="qcol">'+answers+'</td>'+
+      '</tr>';
+  }
+  document.getElementById('table').querySelector('tbody').innerHTML=rows;
   document.getElementById('lastRefresh').textContent='Updated: '+new Date().toLocaleTimeString();
 }
 </script>
