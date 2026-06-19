@@ -68,16 +68,22 @@
 
 <!-- Supabase init -->
 <script>
-  const SUPABASE_URL = "https://hkjsgyaroavbhphuehxq.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_" + "vvtcTGwQOmBzgxGDrnbrZg_EAJEvMGm";
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  (function() {
+    if (!window.supabase) { console.error('Supabase CDN not loaded'); return; }
+    const SUPABASE_URL = "https://hkjsgyaroavbhphuehxq.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_" + "vvtcTGwQOmBzgxGDrnbrZg_EAJEvMGm";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  async function saveToSupabase(data) {
-    try {
-      const { error } = await supabase.from("webinar_signups").insert([data]);
-      if (error) console.error("Supabase insert error:", error.message);
-    } catch(e) { console.error("Supabase error:", e); }
-  }
+    window.saveToSupabase = async function(data) {
+      try {
+        console.log('saveToSupabase called:', data);
+        const { error } = await supabase.from("webinar_signups").insert([data]);
+        if (error) console.error("Supabase insert error:", error.message);
+        else console.log('Supabase insert OK');
+      } catch(e) { console.error("Supabase error:", e); }
+    };
+    console.log('Supabase ready');
+  })();
 </script>
 <link rel="stylesheet" href="assets/css/style.css?v=3">
 </head>

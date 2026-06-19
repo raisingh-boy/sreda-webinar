@@ -469,9 +469,9 @@ h2 {
   border: 1px solid rgba(230,184,0,0.15);
 }
 .timer-block p { font-size: 13px; color: var(--text2); margin-bottom: 8px; }
-.timer { font-size: 36px; font-weight: 800; color: var(--accent); }
-.timer-unit { display: inline-block; min-width: 60px; }
-.timer-sep { color: var(--text3); margin: 0 4px; }
+.timer { display: flex; justify-content: center; align-items: baseline; gap: 2px; font-size: 28px; font-weight: 800; color: var(--accent); white-space: nowrap; }
+.timer-unit { min-width: auto; }
+.timer-sep { color: var(--text3); margin: 0 2px; }
 
 /* ===== WEBINAR CARD ===== */
 .webinar-card {
@@ -551,7 +551,7 @@ h2 {
   .contact-row { flex-direction: column; }
   .contact-select { width: 100% !important; }
   .webinar-card { padding: 24px; }
-  .timer { font-size: 28px; }
+  .timer { font-size: 22px; }
   .price-current { font-size: 32px; }
   .trust-block { grid-template-columns: 1fr 1fr; gap: 10px; }
 }
