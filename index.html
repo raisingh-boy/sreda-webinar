@@ -79,9 +79,10 @@
         const clean = Object.fromEntries(Object.entries(data).filter(([k]) => k !== 'timestamp'));
         console.log('saveToSupabase:', clean);
         const { error } = await supabase.from("webinar_signups").upsert([clean], { onConflict: 'email' });
-        if (error) console.error("Supabase error:", error.message);
-        else console.log('Supabase upsert OK');
-      } catch(e) { console.error("Supabase error:", e); }
+        if (error) { console.error("Supabase error:", error.message); return false; }
+        localStorage.setItem('seamless_db_saved', '1');
+        return true;
+      } catch(e) { console.error("Supabase error:", e); return false; }
     };
     console.log('Supabase ready');
   })();

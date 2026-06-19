@@ -463,6 +463,7 @@ function answerSurvey(qNum, value) {
     }
   } else {
     // All questions in this block done
+    surveyData.step = currentStep;
     if (typeof saveToSupabase === 'function') {
       saveToSupabase(surveyData);
     }
