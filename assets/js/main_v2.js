@@ -274,10 +274,12 @@ function playVideo(n) {
   const container = document.getElementById(`video-${n}-container`);
   const id = links[n][currentLang] || links[n]['ru'];
   container.innerHTML = `
-    <iframe width="100%" height="100%"
+    <iframe
       src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1"
-      frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen style="width:100%;height:100%;object-fit:cover">
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+      style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover">
     </iframe>`;
 }
 
