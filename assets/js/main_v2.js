@@ -99,10 +99,10 @@ const lang = {
     "teacher-2-role": "Dancer, choreographer, director",
     "teacher-2-bio": "Two-time Golden Mask laureate (2011, 2014 — Best Male Role in Ballet). Harlequin Award winner (2011). Winner of Context. Diana Vishneva choreography competition (2013). Productions at Mariinsky Theatre, Perm Opera, AKHE Theatre.",
 
-    "material-1-chip": "🎬 Free lecture",
-    "content-1-title": "Free lecture from Andriyashkin",
-    "v1-label": "Andriyashkin — 100 Years In 100 Minutes",
-    "v1-desc": "A lecture-performance on the history of contemporary dance. From modern to metamodern.",
+    "material-1-chip": "🎬 Free talk",
+    "content-1-title": "Free talk from Andriyashkin",
+    "v1-label": "Andriyashkin — Why do we need performance if we have iPhone?",
+    "v1-desc": "A conversation about performance, presence and the body in the age of reels and digital content.",
 
     "material-2-chip": "🎬 Free lesson",
     "content-2-title": "Free lesson from Varnava",
