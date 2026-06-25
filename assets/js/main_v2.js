@@ -5,7 +5,7 @@ const lang = {
     "lang-quote": "«Поднимите руку, если за последний месяц вы видели перформанс» — поднялась половина группы.<br>«А теперь те, кто смотрел stories или Reels» — встали все.",
     "lang-quote-author": "— Александр Андрияшкин",
     "entry-name-label": "Имя",
-    "entry-contact-label": "WhatsApp / Telegram",
+    "entry-contact-label": "Контакт для связи",
     "entry-country-label": "Страна",
     "btn-entry-submit": "Получить доступ →",
 
@@ -88,7 +88,7 @@ const lang = {
     "lang-quote": "«Raise your hand if in the last month you've seen a performance» — half the group raised their hand.<br>«Now those who watched stories or Reels» — everyone stood up.",
     "lang-quote-author": "— Alexander Andriyashkin",
     "entry-name-label": "Name",
-    "entry-contact-label": "WhatsApp / Telegram",
+    "entry-contact-label": "Contact info",
     "entry-country-label": "Country",
     "btn-entry-submit": "Get access →",
 
@@ -203,6 +203,7 @@ function applyLang(l) {
 // ===== ENTRY FORM SUBMIT =====
 function submitEntry() {
   const name = document.getElementById('entry-name').value.trim();
+  const contactType = document.getElementById('entry-contact-type').value;
   const contact = document.getElementById('entry-contact').value.trim();
   const country = document.getElementById('entry-country').value;
 
@@ -211,7 +212,7 @@ function submitEntry() {
     return;
   }
   if (!contact) {
-    alert(currentLang === 'ru' ? 'Пожалуйста, укажи WhatsApp или Telegram' : 'Please enter your WhatsApp or Telegram');
+    alert(currentLang === 'ru' ? 'Пожалуйста, укажи контакт для связи' : 'Please enter your contact');
     return;
   }
   if (!country) {
@@ -219,9 +220,13 @@ function submitEntry() {
     return;
   }
 
+  const fullContact = contactType === 'telegram' ? 'tg: ' + contact : 'wa: ' + contact;
+
   entryData = {
     name,
-    contact,
+    contact: fullContact,
+    contactType,
+    contactValue: contact,
     country,
     lang: currentLang,
     source: 'webinar-landing-v5',
@@ -333,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Enter key on form fields
-    ['entry-name', 'entry-contact', 'entry-country'].forEach(id => {
+    ['entry-name', 'entry-contact', 'entry-contact-type', 'entry-country'].forEach(id => {
       const el = document.getElementById(id);
       if (el) {
         el.addEventListener('keydown', function(e) {

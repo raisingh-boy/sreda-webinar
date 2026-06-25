@@ -116,8 +116,14 @@ in the Age of Reels">Contemporary Dance &amp; Performance<br>in the Age of Reels
         <input type="text" id="entry-name" placeholder="" required style="padding:12px 16px;border:1px solid var(--bg3);border-radius:8px;background:var(--bg2);color:var(--text1);font-size:16px;width:100%">
       </div>
       <div class="form-group">
-        <label id="entry-contact-label" style="color:var(--text2);font-size:14px;margin-bottom:6px;display:block">WhatsApp / Telegram</label>
-        <input type="text" id="entry-contact" placeholder="@username or +123456789" required style="padding:12px 16px;border:1px solid var(--bg3);border-radius:8px;background:var(--bg2);color:var(--text1);font-size:16px;width:100%">
+        <label id="entry-contact-label" style="color:var(--text2);font-size:14px;margin-bottom:6px;display:block">Контакт для связи</label>
+        <div class="contact-row" style="display:flex;gap:10px">
+          <select id="entry-contact-type" style="width:140px;flex-shrink:0;padding:12px 12px;border:1px solid var(--bg3);border-radius:8px;background:var(--bg2);color:var(--text1);font-size:15px;appearance:none;-webkit-appearance:none">
+            <option value="telegram">Telegram</option>
+            <option value="whatsapp">WhatsApp</option>
+          </select>
+          <input type="text" id="entry-contact" placeholder="@username or +123456789" required style="flex:1;padding:12px 16px;border:1px solid var(--bg3);border-radius:8px;background:var(--bg2);color:var(--text1);font-size:16px">
+        </div>
       </div>
       <div class="form-group">
         <label id="entry-country-label" style="color:var(--text2);font-size:14px;margin-bottom:6px;display:block">Country</label>
