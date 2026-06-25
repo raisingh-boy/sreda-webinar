@@ -81,7 +81,7 @@ const lang = {
     "price-current": "$47",
     "price-info": "Текущая цена — $47. После Early Bird — $67",
     "btn-buy": "Купить билет — $47",
-    "buy-link": "https://web.tribute.tg/s/X01"
+    "buy-link": "https://web.tribute.tg/s/X02"
   },
   en: {
     "glitch-title": "Contemporary Dance &amp; Performance<br>in the Age of Reels",
