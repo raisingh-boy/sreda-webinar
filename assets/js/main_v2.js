@@ -286,26 +286,21 @@ function playVideo(n) {
 // ===== TIMER =====
 function startTimer() {
   if (timerInterval) return;
-  const end = new Date('2026-06-26T23:59:59+08:00');
   timerInterval = setInterval(() => {
     const now = new Date();
-    const diff = Math.max(0, end - now);
-    const d = Math.floor(diff / 86400000);
-    const h = Math.floor((diff % 86400000) / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
-    const daysEl = document.getElementById('timer-days');
-    if (daysEl) {
-      daysEl.textContent = d;
-      document.getElementById('timer-hours').textContent = String(h).padStart(2, '0');
-    } else {
-      document.getElementById('timer-hours').textContent = String(d * 24 + h).padStart(2, '0');
-    }
-    document.getElementById('timer-mins').textContent = String(m).padStart(2, '0');
-    document.getElementById('timer-secs').textContent = String(s).padStart(2, '0');
-    if (diff <= 0) {
-      clearInterval(timerInterval);
-    }
+    // Calculate end of current Bali day (UTC+8)
+    const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
+    const baliMs = utcMs + 8 * 3600000;
+    const baliDayEnd = (Math.floor(baliMs / 86400000) + 1) * 86400000;
+    const diffSec = Math.max(0, baliDayEnd - baliMs);
+    const h = String(Math.floor(diffSec / 3600000)).padStart(2, '0');
+    const m = String(Math.floor((diffSec % 3600000) / 60000)).padStart(2, '0');
+    const s = String(Math.floor((diffSec % 60000) / 1000)).padStart(2, '0');
+    document.getElementById('timer-days').textContent = '';
+    document.getElementById('timer-days-l').textContent = '';
+    document.getElementById('timer-hours').textContent = h;
+    document.getElementById('timer-mins').textContent = m;
+    document.getElementById('timer-secs').textContent = s;
   }, 1000);
 }
 
