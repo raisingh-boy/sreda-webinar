@@ -26,7 +26,7 @@ const lang = {
     "v2-label": "Варнава — Body & Gravity (RUS)",
     "v2-desc": "Танц практика: вес, гравитация и присутствие в движении.",
 
-    "webinar-intro-text": "Мы организуем вебинар с нашими кураторами, где можно будет вместе с ними пойти глубже в тему и получить практические инструменты для создания собственного движения и выражения в кадре.",
+    "webinar-intro-text": "Этот вебинар показывает, как мыслят художники.\nВы уйдёте с методом, который сможете применить в своей работе —\nсоздаёте ли вы рилсы, перформансы, фильмы или визуальные проекты.",
 
     "badge-webinar": "sreda+seamless",
     "webinar-title": "Contemporary Dance & Performance<br>в эпоху Reels",
@@ -109,7 +109,7 @@ const lang = {
     "v2-label": "Varnava — Body & Gravity (EN)",
     "v2-desc": "A practical session on weight, gravity and presence in movement.",
 
-    "webinar-intro-text": "We're organizing a webinar with our curators where you can go deeper into the topic together with them and get practical tools for creating your own movement and expression on camera.",
+    "webinar-intro-text": "This webinar teaches how artists think.\nLeave with a method you can apply to your own work-\nwhether you create reels, performances, films or visual projects.",
 
     "badge-webinar": "sreda+seamless",
     "webinar-title": "Contemporary Dance &amp; Performance<br>in the Age of Reels",
