@@ -176,6 +176,10 @@ let entryData = {};
 function setLang(l) {
   currentLang = l;
   applyLang(l);
+  const entry = document.getElementById('section-entry');
+  const wrapper = document.getElementById('content-wrapper');
+  if (entry) entry.style.display = 'none';
+  if (wrapper) { wrapper.classList.remove('hidden'); wrapper.style.display = ''; }
 }
 function applyLang(l) {
   const t = lang[l];
