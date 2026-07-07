@@ -5,6 +5,7 @@ const lang = {
     "glitch-title": "СОВРЕМЕННЫЙ ТАНЕЦ<br>И ПЕРФОРМАНС<br>В ЭПОХУ РИЛС",
     "lang-quote": "«Поднимите руку, если за последний месяц вы видели перформанс» — поднялась половина группы.<br>«А теперь те, кто смотрел stories или Reels» — встали все.",
     "lang-quote-author": "— Александр Андрияшкин",
+    "info-banner-text": "Познакомьтесь с ведущими и посмотрите бесплатные материалы",
     "lang-email-label": "Email",
     "lang-name-label": "Имя",
     "lang-country-label": "Страна",
@@ -150,7 +151,7 @@ const lang = {
     "faq-a2": "Да, все участники получат запись.",
     "faq-q3": "Как это работает онлайн?",
     "faq-a3": "Ты получишь приватную Zoom-ссылку после покупки.",
-    "timer-label": "Специальная цена действует до:",
+
     "price-old": "$67",
     "price-current": "$47",
     "price-info": "Текущая цена — $47. После Early Bird — $67",
@@ -163,6 +164,7 @@ const lang = {
     "glitch-title": "Contemporary Dance &amp; Performance<br>in the Age of Reels",
     "lang-quote": "«Raise your hand if in the last month you've seen a performance» — half the group raised their hand.<br>«Now those who watched stories or Reels» — everyone stood up.",
     "lang-quote-author": "— Alexander Andriyashkin",
+    "info-banner-text": "Meet the hosts and explore free materials",
     "lang-email-label": "Email",
     "lang-name-label": "Name",
     "lang-country-label": "Country",
@@ -273,7 +275,7 @@ const lang = {
     "faq-a2": "Yes. All participants receive the recording.",
     "faq-q3": "How does it work online?",
     "faq-a3": "You'll receive a private Zoom link after purchase.",
-    "timer-label": "Special price valid until:",
+
     "price-old": "$67",
     "price-current": "$47",
     "price-info": "Current price — $47. After Early Bird — $67",
