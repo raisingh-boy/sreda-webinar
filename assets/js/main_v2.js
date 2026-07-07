@@ -202,6 +202,46 @@ function applyLang(l) {
 
 // ===== ENTRY FORM SUBMIT =====
 function submitEntry() {
+  const name = document.getElementById('entry-name').value.trim();
+  const contactType = document.getElementById('entry-contact-type').value;
+  const contact = document.getElementById('entry-contact').value.trim();
+  const country = document.getElementById('entry-country').value;
+
+  if (!name) {
+    alert(currentLang === 'ru' ? 'Пожалуйста, введи своё имя' : 'Please enter your name');
+    return;
+  }
+  if (!contact) {
+    alert(currentLang === 'ru' ? 'Пожалуйста, укажи контакт для связи' : 'Please enter your contact');
+    return;
+  }
+  if (!country) {
+    alert(currentLang === 'ru' ? 'Пожалуйста, выбери страну' : 'Please select your country');
+    return;
+  }
+
+  const fullContact = contactType === 'telegram' ? 'tg: ' + contact : 'wa: ' + contact;
+
+  entryData = {
+    name,
+    contact: fullContact,
+    contactType,
+    contactValue: contact,
+    country,
+    lang: currentLang,
+    source: 'webinar-landing-v5',
+    timestamp: new Date().toISOString()
+  };
+
+  // Save to localStorage
+  localStorage.setItem('seamless_entry', JSON.stringify(entryData));
+
+  // Send to Supabase
+  if (typeof saveToSupabase === 'function') {
+    saveToSupabase(entryData);
+  }
+
+  // Show content
   revealContent();
 }
 
@@ -294,7 +334,17 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch(e) {}
     }
 
-
+    // Enter key on form fields
+    ['entry-name', 'entry-contact', 'entry-contact-type', 'entry-country'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            submitEntry();
+          }
+        });
+      }
     });
 
   } catch(e) {
