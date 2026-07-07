@@ -92,11 +92,7 @@ async function saveToSupabase(data) {
     <h1 id="glitch-title" class="glitch" data-text="Contemporary Dance & Performance
 in the Age of Reels">Contemporary Dance &amp; Performance<br>in the Age of Reels</h1>
     
-    <!-- Quote -->
-    <div class="quote-block" style="max-width:500px;margin:0 auto 32px;text-align:center;padding:16px 20px;border-left:3px solid var(--accent);background:var(--bg2);border-radius:var(--radius-sm)">
-      <p id="lang-quote" style="font-size:15px;font-style:italic;color:var(--text);line-height:1.6">«Поднимите руку, если за последний месяц вы видели перформанс» — поднялась половина группы.<br>«А теперь те, кто смотрел stories или Reels» — встали все.</p>
-      <p id="lang-quote-author" style="font-size:12px;color:var(--text3);margin-top:8px">— Александр Андрияшкин</p>
-    </div>
+
 
     <div class="lang-buttons">
       <button class="lang-btn" data-lang="ru" onclick="setLang('ru')">
@@ -110,16 +106,15 @@ in the Age of Reels">Contemporary Dance &amp; Performance<br>in the Age of Reels
     </div>
 
     <!-- Info banner -->
-    <div class="info-banner" style="margin-top:32px;max-width:600px;width:100%;padding:20px 32px;background:#FFE15D;border-radius:12px;text-align:center">
-      <p id="info-banner-text" style="color:#1A1A1A;font-size:18px;font-weight:600;margin:0;line-height:1.4">Познакомьтесь с ведущими и посмотрите бесплатные материалы</p>
-      <div style="margin-top:16px;font-size:24px;color:#1A1A1A">↓ ↓ ↓</div>
-
+    <div class="info-banner" style="margin-top:32px;max-width:600px;width:100%;padding:20px 32px;background:transparent;border:1px solid var(--bg3);border-radius:12px;text-align:center">
+      <p id="info-banner-text" style="color:var(--text2);font-size:16px;font-weight:400;margin:0;line-height:1.5;letter-spacing:0.01em">Познакомьтесь с ведущими и посмотрите бесплатные материалы</p>
+      <div style="margin-top:14px;font-size:20px;color:var(--text3);letter-spacing:6px">↓</div>
     </div>
   </div>
 </section>
 
 <!-- ===== CONTENT WRAPPER (shown after submit) ===== -->
-<div id="content-wrapper" class="content-wrapper">
+<div id="content-wrapper" class="content-wrapper hidden">
 
   <!-- ===== SECTION: ANDRIYASHKIN ===== -->
   <section class="content-section">
